@@ -1,0 +1,709 @@
+/* Card editor app
+ */
+
+/* Imports
+*/
+@import 'themes';
+
+/* Main
+*/
+
+html,
+body {
+  height: 100%;
+  min-height: emCalc(560);
+  min-width: 1248px;
+}
+
+/* flex layout
+ */
+.card-maker {
+  width: 100%;
+  height: 700px;
+}
+
+.app-view,
+.themes-box,
+.card-editor {
+  float: left;
+  height: 100%;
+}
+
+.themes-box {
+  padding-left: emCalc(8);
+  padding-right: emCalc(8);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  width: emCalc(120);
+}
+
+.card-editor {
+  margin-left: 0;
+  padding-bottom: 0;
+  width: emCalc(790);
+
+  font-size: 1em;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.card-editor > h2 {
+  overflow: hidden;
+}
+
+.button.btn-reset {
+  float: right;
+  margin: 0;
+}
+
+/* Themes
+*/
+.themes-box {
+  margin-top: 115px;
+  padding: 10px 18px 0;
+  background-color: $white;
+  box-shadow: inset 0 -2px 2px darken($white, 10%);
+  border: 1px solid lighten($black, 85%);
+  border-radius: 6px;
+  height: 420px;
+  width: 220px;
+}
+
+.themes-row {
+  white-space: nowrap;
+
+  .theme-item {
+    display: block;
+    position: relative;
+    height: emCalc(110);
+    padding: emCalc(4);
+    margin: 0;
+    border-radius: 9px;
+    background-color: transparent;
+
+    .theme-preview-container {
+      overflow: hidden;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+
+      @include linear-gradient(50deg, #888, #000);
+    }
+
+    .theme-preview {
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      opacity: .95;
+    }
+
+    &.active {
+      background-color: $color1;
+
+      .theme-preview {
+        // opacity: .9;
+      }
+    }
+
+    &:hover {
+
+      .theme-preview {
+        opacity: .9;
+      }
+
+    }
+  }
+
+}
+
+/* Editor
+*/
+
+// 3.75 x 2.25 in - full bleed at 96ppi
+.card-container {
+  position: relative;
+  width: emCalc(480);
+  height: emCalc(270);
+  margin-bottom: emCalc(10);
+  border: 1px solid darken($white, 10%);
+  box-shadow: 0 2px 1px darken($white, 5%);
+  font-size: 1.65em;
+}
+
+.card-preview {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  font-size: .75em;
+}
+
+.card-content {
+  overflow: hidden;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* enlarged card for high-quality generation
+ */
+.card-container.card-big {
+  position: absolute;
+  /* we can't position it offscreen using top, because html2cavas
+   * will come out black.
+   */
+  top: 0;
+  left: 200%;
+  border: 0;
+  pointer-events: none;
+
+  width: 1920px;
+  height: 1080px;
+  font-size: 3.5em;
+
+  .no-picture,
+  .no-export {
+    display: none;
+  }
+
+  /* Make sure the drag handles are not still visible
+   * when taking the canvas picture,
+   * beacause of transitions
+   */
+  .drag-handle,
+  .resize-handle {
+    opacity: 0;
+
+    @include transition(none);
+    @include transition-delay(0);
+  }
+}
+
+/* Picture upload
+*/
+.file-upload {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+.card-container input[type=file] {
+  width: 1px;
+  height: 1px;
+}
+
+.card-picture {
+  position: absolute;
+  bottom: 2%;
+  left: 2%;
+
+  width: 20%;
+  color: $black;
+
+  vertical-align: top;
+  text-align: center;
+
+  i {
+    font-size: 3em;
+  }
+
+  span {
+    font-size: emCalc(12);
+  }
+
+  i,
+  span {
+    display: none;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    max-height: 100%;
+  }
+
+  label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+
+    * {
+      cursor: pointer;
+    }
+
+    &:hover {
+      background-color: rgba($color2, .3);
+    }
+  }
+
+  .no-picture {
+    opacity: .8;
+
+    i,
+    span {
+      display: block;
+    }
+
+    img {
+      display: none;
+    }
+
+  }
+
+}
+
+/* Text defaults
+*/
+
+.card-content {
+
+  font-family: 'Open Sans', sans-serif;
+
+  .card-item,
+  .card-item p {
+    position: relative;
+  }
+
+  .card-item {
+    position: absolute;
+    border: 0;
+    padding: 0;
+    margin: 0;
+
+    vertical-align: top;
+  }
+
+  .card-item,
+  .card-picture {
+    min-width: 10%;
+    min-height: 4%;
+  }
+
+  .card-item:hover {
+    background-color: rgba($color2, .3);
+  }
+
+  .person {
+    top: 2%;
+  }
+
+  .fn {
+    font-size: 1em;
+    font-weight: bold;
+  }
+
+  .org {
+    font-weight: bold;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  *,
+  a {
+    cursor: text;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  .person,
+  .details,
+  .email,
+  .url {
+    position: absolute;
+    width: emCalc(200);
+  }
+
+}
+
+.watermark-logo {
+  display: block;
+  position: absolute;
+  background: url(../images/watermark.svg) no-repeat;
+  background-size: 100% 100%;
+  width: emCalc(118);
+  height: emCalc(17);
+  right: 15px;
+  bottom: 10px;
+}
+
+.placeholder-person {
+  display: block;
+  position: absolute;
+  background: url(../images/person-large.svg);
+  width: 430px;
+  height: 436px;
+  left: 50%;
+  bottom: 0;
+  margin-left: -215px;
+}
+
+.placeholder-callbar {
+  display: block;
+  position: absolute;
+  background: url(../images/callbar.svg);
+  width: 56px;
+  height: 54px;
+  bottom: 40px;
+  left: 50%;
+  margin-left: -28px;
+  display: none;
+}
+
+.placeholder-info {
+  position: absolute;
+  width: 100%;
+  font-size: 11px;
+  color: rgba(#7D7D7D, .8);
+  bottom: 10px;
+  text-align: center;
+}
+
+/* Drag
+*/
+
+$color-handle: #555;
+$color-resize: lighten($color-handle, 20%);
+
+.drag-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  opacity: 0;
+
+  box-sizing: content-box;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  margin: -10px;
+  border: 5px dotted $color-handle;
+
+  cursor: move;
+}
+
+.resize-handle {
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: -12px;
+  bottom: -12px;
+  z-index: 99;
+  cursor: se-resize;
+
+  border-width: 8px;
+  border-color: transparent $color-resize $color-resize transparent;
+  border-style: solid;
+
+  opacity: 0;
+}
+
+.drag-handle,
+.resize-handle {
+  @include transition(all .1s ease-in-out);
+  @include transition-delay(0.5s);
+}
+
+.dr-handle-show,
+.dr-container:hover,
+.dr-container:focus {
+  .drag-handle,
+  .resize-handle {
+    @include transition-delay(0s);
+  }
+
+  .drag-handle {
+    opacity: .7;
+  }
+
+  .resize-handle {
+    opacity: 1;
+  }
+}
+
+.dr-active {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Download buttons
+*/
+.download-buttons {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+
+  font-size: 1.65em;
+
+  > li {
+    display: block;
+    overflow: hidden;
+    vertical-align: top;
+    font-size: emCalc(12);
+  }
+
+  .button {
+    display: block;
+    height: 70px;
+    margin: 0;
+    border-radius: 11px;
+
+    font-size: 1em;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .twitter-button {
+    display: block;
+    height: 70px;
+    margin: 0;
+    border-radius: 11px;
+
+    font-size: 1em;
+    text-align: left;
+    vertical-align: top;
+    background-color: #1DA1F2;
+  }
+
+  .fa {
+    width: emCalc(20);
+  }
+
+  small {
+    display: block;
+    padding-top: emCalc(4);
+    padding-left: emCalc(44);
+  }
+
+  > li {
+    float: left;
+    margin-right: 8px;
+  }
+}
+
+.button-download-file {
+  display: block;
+  padding: .6em 1em;
+  width: 190px;
+  font-size: 1.32em;
+  border: 1px solid #c0c0c0;
+}
+
+.button-download-file:hover {
+  background: darken($white, 5%);
+  color: $black;
+}
+
+.button-pro {
+  display: block;
+  padding: .6em 1em;
+  font-size: 1.32em;
+  border: 1px solid #B66C3B;
+  
+  i {
+    display: block;
+    font-size: 11px;
+  }
+}
+
+.twitter-pro {
+  display: block;
+  padding: .6em 1em;
+  font-size: 1.32em;
+  border: 1px solid #479CAB;
+  color: white;
+    i {
+      display: block;
+      font-size: 11px;
+    }
+    a {
+      text-decoration: none;
+    }
+}
+
+.button-pro:hover {
+  background: darken($color1, 10%);
+  color: $white;
+}
+
+.order-btn .button {
+  color: #fff;
+  white-space: nowrap;
+}
+
+.order-btn small {
+  white-space: normal;
+}
+
+.price-promo {
+  font-weight: bold;
+}
+
+.partner-text {
+  display: block;
+  margin: emCalc(8) 0 0 emCalc(80);
+
+  color: #479CAB;
+  font-size: emCalc(11);
+
+  a {
+    display: inline-block;
+    width: 100px;
+    height: 33px;
+    margin-left: emCalc(8);
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    text-indent: -100%;
+    vertical-align: middle;
+  }
+}
+
+.download-buttons .f-dropdown {
+  display: block;
+  min-width: emCalc(360);
+  border-radius: 3px;
+  border-color: $color2;
+
+  box-shadow: 0 2px 5px lighten(#000, 60%);
+
+  &:before,
+  &:after {
+    left: auto;
+    right: emCalc(20);
+  }
+
+  &:after {
+    border-bottom-color: $color2;
+    margin-left: 0;
+    margin-right: -1px;
+  }
+
+  li {
+    font-size: emCalc(24);
+  }
+
+  small {
+    color: lighten(#000, 20%);
+  }
+
+  a {
+    padding: emCalc(8) emCalc(24);
+
+    color: #000;
+
+    &:hover {
+      //background-color: lighten($color2, 40%);
+      color: $color2;
+      text-decoration: none;
+    }
+  }
+}
+
+.download-form {
+  input {
+    display: none;
+  }
+}
+
+.download-note {
+  padding: emCalc(5);
+  border-color: darken($white, 10%);
+  background-color: darken($white, 5%);
+
+  font-size: 1em;
+
+  p {
+    margin: 0;
+
+    font-size: emCalc(10);
+    color: #333;
+  }
+
+  code {
+    color: $color1;
+  }
+}
+
+.region-notice {
+  display: block;
+  color: darken($white, 60%);
+  font-size: emCalc(12);
+  float: right;
+  width: 50%;
+  padding: 0 emCalc(40) 0 emCalc(88);
+}
+
+/* invisible card generation
+*/
+
+.card-invisible {
+  position: absolute;
+  left: 100%;
+  top: 100%;
+  pointer-events: none;
+}
+
+
+/* card loader
+*/
+
+.state-loading {
+  position: relative;
+  pointer-events: none;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: rgba(#000, .5);
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1001;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: #fff #fff #fff transparent;
+    border-radius: 100%;
+
+    @include transform(translate3d(-50%, 50%, 0));
+    @include animation(rotate 1s infinite linear);
+  }
+
+}
+
+@include keyframes(rotate) {
+  0% {
+    @include transform(rotate(0deg));
+  }
+  100% {
+    @include transform(rotate(360deg));
+  }
+}
+

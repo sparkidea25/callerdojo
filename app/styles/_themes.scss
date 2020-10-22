@@ -1,0 +1,91 @@
+/* Themes
+ */
+
+/* Mixin to set text colors for dark/light themes
+*/
+
+@mixin theme($type) {
+  $color: #fff;
+
+  @if $type == 'light' {
+    $color: #000;
+  }
+
+  color: $color;
+
+  a,
+  .card-picture label,
+  .card-picture:hover label {
+    color: $color;
+  }
+
+  .card-item:hover {
+    background-color: rgba($color2, .3);
+  }
+
+  .watermark-logo {
+    @if $type == 'light' {
+      background: url(../images/watermark-dark.svg) no-repeat;
+      background-size: 100% 100%;
+    } @else {
+      background: url(../images/watermark-light.svg) no-repeat;
+      background-size: 100% 100%;
+    }
+  }
+
+  .placeholder-person {
+    @if $type == 'light' {
+      background: url(../images/person-large-dark.svg);
+    } @else {
+      background: url(../images/person-large-light.svg);
+    }
+  }
+
+  .placeholder-info {
+    color: rgba($color, .8);
+  }
+}
+
+/* Mixin to show *New* label
+ */
+
+@mixin theme-new() {
+
+  &:after {
+    position: absolute;
+    top: emCalc(-8);
+    right: emCalc(-8);
+    display: block;
+    width: emCalc(44);
+    height: emCalc(44);
+    padding: emCalc(14) 0;
+    background: #f1c40f;
+    border-radius: 100%;
+    box-shadow: 0 1px 1px darken(#f1c40f, 12%);
+
+    content: 'NEW';
+    color: #fff;
+    font-size: .5em;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1em;
+    letter-spacing: emCalc(-.4);
+    vertical-align: middle;
+    text-transform: uppercase;
+
+    @include transform(rotate(-16deg));
+  }
+
+}
+
+/* Themes
+ */
+@import 'themes/simple';
+@import 'themes/corners';
+@import 'themes/half';
+@import 'themes/border';
+@import 'themes/diagonals';
+@import 'themes/line';
+@import 'themes/third';
+@import 'themes/topline';
+@import 'themes/picture';

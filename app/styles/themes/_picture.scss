@@ -1,0 +1,247 @@
+/* Picture theme
+ */
+
+/* Mixin
+ */
+
+@mixin picture($name: full, $dark: false, $picture: '', $repeat: false, $format: 'jpg') {
+
+  .theme-picture--#{$picture}-#{$name} {
+
+    background: #fff;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      background-image: url(../images/themes/#{$picture}.#{$format});
+      background-position: bottom left;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    @if $repeat == true {
+      &:before {
+        background-size: 300px;
+        background-repeat: repeat;
+      }
+    }
+
+    /* if half
+     */
+    @if str-index($name, half) {
+      &:before {
+        width: 50%;
+      }
+    }
+
+    .card-content {
+
+      // .card-picture {
+      //   position: absolute;
+      //   bottom: 2%;
+      //   left: 2%;
+
+      //   label {
+      //     color: #fff !important;
+      //   }
+
+      //   .drag-handle {
+      //     border-color: #fff !important;
+      //   }
+      // }
+
+      .card-item,
+      .card-item p {
+        position: relative;
+      }
+
+      .card-item {
+        position: absolute;
+    
+        &.person {
+          top: 2%;
+          left: 2%;
+        }
+    
+        &.email {
+          top: 2%;
+          right: 2%;
+          text-align: right;
+        }
+    
+        &.url {
+          top: 10%;
+          right: 2%;
+          text-align: right;
+        }
+    
+        &.details {
+          display: none;
+          bottom: 2%;
+          right: 2%;
+        }
+    
+      }
+
+    }
+
+
+    @if $dark == true {
+      @include theme(dark);
+
+      background: #000;
+    } @else {
+      @include theme(light);
+    }
+
+    /* if top
+     */
+    @if str-index($name, top) {
+
+      &:before {
+        width: 100%;
+        height: 44%;
+
+        background-position: 0% 68%;
+        background-size: cover;
+      }
+
+      .card-content {
+
+        .card-picture {
+          top: 4%;
+          left: 32%;
+
+          label {
+            padding: emCalc(4);
+          }
+        }
+
+        .person {
+          left: 6%;
+          top: 52%;
+        }
+
+      }
+
+    }
+
+  }
+
+  .theme-picture--#{$picture}-#{$name}-thumb {
+
+    // @include theme-new();
+
+    .theme-preview {
+      position: relative;
+      background-color: #fff;
+      padding: 0 !important;
+    }
+
+    .theme-preview:after {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      background: url(../images/themes/#{$picture}.#{$format}) no-repeat left top;
+      background-size: cover;
+    }
+
+    /* if half
+     */
+    @if str-index($name, half) {
+      .theme-preview:after {
+        width: 50%;
+      }
+    }
+
+    @if $dark == true {
+      .theme-preview {
+        background: #000;
+      }
+    }
+
+    @if str-index($name, top) {
+      .theme-preview:after {
+        width: 100%;
+        height: 50%;
+
+        background-size: cover;
+      }
+    }
+  }
+
+  /* for repeating patterns
+   * double them when enlarging the card
+   */
+  @if $repeat == true {
+    .card-big .theme-picture--#{$picture}-#{$name} {
+      &:before {
+        background-size: 600px;
+      }
+    }
+  }
+
+}
+
+/* generate themes
+ */
+
+@include picture('full', true, 'blacklight');
+@include picture('full', true, 'bluelight');
+@include picture('full', true, 'mysticwave');
+@include picture('full', false, 'workspace2', false, 'jpeg');
+@include picture('full', true, 'workspace', false, 'jpeg');
+@include picture('full', true, 'wework', false, 'jpeg');
+@include picture('full', true, 'web2', false, 'jpeg');
+@include picture('full', true, 'web', false, 'jpeg');
+@include picture('full', true, 'tron', false, 'jpeg');
+@include picture('full', true, 'space2', false, 'jpeg');
+@include picture('full', true, 'space', false, 'jpeg');
+@include picture('full', true, 'servers', false, 'jpeg');
+@include picture('full', true, 'roomview3', false, 'jpeg');
+@include picture('full', true, 'roomview2', false, 'jpeg');
+@include picture('full', false, 'roomview', false, 'jpeg');
+@include picture('full', true, 'room4', false, 'jpeg');
+@include picture('full', true, 'room3', false, 'jpeg');
+@include picture('full', false, 'room2', false, 'jpeg');
+@include picture('full', false, 'room', false, 'jpeg');
+@include picture('full', false, 'orangetables', false, 'jpeg');
+@include picture('full', true, 'network', false, 'jpeg');
+@include picture('full', true, 'landscape3', false, 'jpeg');
+@include picture('full', true, 'landscape', false, 'jpeg');
+@include picture('full', true, 'grandtables', false, 'jpeg');
+@include picture('full', true, 'gradient9', false, 'jpeg');
+@include picture('full', true, 'gradient8', false, 'jpeg');
+@include picture('full', true, 'gradient7', false, 'jpeg');
+@include picture('full', true, 'gradient6', false, 'jpeg');
+@include picture('full', true, 'gradient5', false, 'jpeg');
+@include picture('full', true, 'gradient4', false, 'jpeg');
+@include picture('full', true, 'gradient3', false, 'jpeg');
+@include picture('full', true, 'gradient2', false, 'jpeg');
+@include picture('full', true, 'gradient1', false, 'jpeg');
+@include picture('full', true, 'goldtables', false, 'jpeg');
+@include picture('full', true, 'glow4', false, 'jpeg');
+@include picture('full', true, 'glow3', false, 'jpeg');
+@include picture('full', true, 'glow2', false, 'jpeg');
+@include picture('full', true, 'glow', false, 'jpeg');
+@include picture('full', true, 'field', false, 'jpeg');
+@include picture('full', true, 'fiber', false, 'jpeg');
+@include picture('full', true, 'emptytable2', false, 'jpeg');
+@include picture('full', true, 'emptytable', false, 'jpeg');
+@include picture('full', false, 'emptyroom', false, 'jpeg');
+@include picture('full', true, 'beach4', false, 'jpeg');
+@include picture('full', true, 'beach3', false, 'jpeg');
+@include picture('full', true, 'beach2', false, 'jpeg');
+@include picture('full', true, 'beach', false, 'jpeg');

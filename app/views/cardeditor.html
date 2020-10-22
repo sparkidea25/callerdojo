@@ -1,0 +1,115 @@
+<h2>
+  Look like a pro on your zoom and team calls.
+</h2>
+<h3>
+  Add personal contact information and your company branding for a more professional presentation.  Virtual backgrounds supported by Zoom, Teams, and Webex.
+</h3>
+<div class="card-container js-card-container" ng-class="{ ' state-loading': model.loadingCard }">
+  <div class="card-preview {{ model.store.theme }}">
+
+    <div class="card-content">
+
+      <input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
+
+      <div class="card-picture" dr-container=".card-content" dr-model="model.store.position.picture" dr-grid="10">
+
+        <label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
+
+          <i class="fa fa-picture-o"></i>
+          <span>Upload your logo</span>
+
+          <img ng-src="{{ model.cardPicture }}">
+
+        </label>
+      </div>
+
+      <div class="card-item person" dr-container=".card-content" dr-model="model.store.position.person" dr-grid="10">
+
+        <p meditor ng-model="model.store.card.name" class="fn"></p>
+        <p meditor ng-model="model.store.card.position" class="title"></p>
+
+      </div>
+
+      <div class="card-item details" dr-container=".card-content" dr-model="model.store.position.details" dr-grid="10">
+
+        <p meditor ng-model="model.store.card.organization" class="org"></p>
+        <p meditor ng-model="model.store.card.location" class="location"></p>
+        <p meditor ng-model="model.store.card.phone" class="tel"></p>
+
+      </div>
+
+      <div class="card-item email" dr-container=".card-content" dr-model="model.store.position.email" dr-grid="10">
+
+        <p meditor ng-model="model.store.card.email"></p>
+
+      </div>
+
+      <div class="card-item url" dr-container=".card-content" dr-model="model.store.position.url" dr-grid="10">
+
+        <p meditor ng-model="model.store.card.url"></p>
+
+      </div>
+
+      <div class="watermark-logo"></div>
+      <div class="placeholder-person no-export"></div>
+      <!-- <div class="placeholder-callbar no-export"></div> -->
+      <div class="placeholder-info no-export">Example call bar and silhouette excluded from download image.</div>
+
+    </div>
+  </div>
+</div>
+<button type="button" class="button small muted btn-reset" ng-click="ResetCard()" title="Undo all the styling changes you made. The text and logo will stay the same.">
+  <i class="fa fa-undo"></i>
+  Reset changes
+</button>
+
+<ul class="download-buttons">
+  
+  <li>
+    <button type="button" ng-click="GetPro()" class="button button-pro">
+      Unlock Pro for $2.99
+      <i>Remove CallerDojo Logo</i>
+    </button>
+  </li>
+  <li>
+    <!-- <a class="twitter-button twitter-pro twitter-hashtags-button" id="buttons" href="https://twitter.com/intent/tweet" data-text="Welcome to CallerDojo"> -->
+      <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large"
+      data-text="Look like a pro on your zoom and team calls."
+      data-url="www.callerdojo.com"
+      data-hashtags="zoom,virtualcall"
+      data-via="callerdojo"
+      data-related="twitterapi,twitter" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <br />     
+<i>Tweet to unlock PRO</i>
+  </li>
+  <li>
+    <button type="button" ng-click="DownloadPicture()" class="button muted button-download-file js-track-picture">
+      <i class="fa fa-arrow-down"></i>
+      Download
+    </button>
+  </li>
+</ul>
+<!-- <script>
+  function rewarUser( event ) {
+    if ( event ) {
+        var watermark = document.querySelector('.watermark-logo');
+        if (watermark) {
+          watermark.remove();
+        }
+        var probutton = document.querySelector('.twitter-pro');
+        if (probutton) {
+          probutton.remove();
+        }
+    }
+}
+window.twttr = (function (d,s,id) {
+    var t, js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+    js.src="//platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs);
+    return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+    }(document, "script", "twitter-wjs"));
+ 
+twttr.ready(function (twttr) {
+    twttr.events.bind('tweet', reward_user);
+});
+</script> -->

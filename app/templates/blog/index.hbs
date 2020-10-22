@@ -1,0 +1,46 @@
+---
+title: Blog
+layout: content.html
+---
+
+<ul class="list-posts">
+
+{{#withSort posted 'data.posted'}}
+
+  {{#each pages}}
+
+  <li>
+
+    <h2 class="post-title">
+      <a href="/blog/{{ this.basename }}.html">
+
+        {{#if data.picture}}
+          <img src="{{ data.picture}}" class="post-picture">
+        {{/if}}
+
+        {{ data.title }}
+      </a>
+    </h2>
+    
+    <div class="post-meta">
+      <time datetime="{{ data.posted }}">
+        {{moment data.posted "MMMM D, YYYY"}}
+      </time>
+    </div>
+
+    <div class="post-summary">
+      {{truncate page 180 "..."}} 
+      
+      <a href="/blog/{{ this.basename }}.html">
+        read more &raquo;
+      </a>
+    </div>
+
+
+  </li>
+
+  {{/each}}
+
+{{/withSort}}
+
+</ul>

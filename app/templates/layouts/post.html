@@ -1,0 +1,59 @@
+---
+layout: page.html
+---
+
+<div class="page-content">
+
+  <article class="row">
+
+    <div class="large-12 columns">
+
+      <h2 class="post-title">
+        {{#if page.picture}}
+          <img src="{{ page.picture}}" class="post-picture">
+        {{/if}}
+
+        {{ page.title }}
+      </h2>
+    
+      <div class="post-meta">
+        <time datetime="{{ page.posted }}">
+          {{moment page.posted "MMMM D, YYYY"}}
+        </time>
+      </div>
+
+      {{#markdown}}
+        {{> body}}
+      {{/markdown}}
+
+      <div class="post-others">
+
+        <h4>
+          Catch up on the latest posts:
+        </h4>
+
+        <ul>
+
+          {{#withSort posted 'page.posted'}}
+            {{#each pages }}
+
+            <li>
+              <a href="/blog/{{ this.basename }}.html">
+                {{ data.title }}
+              </a>
+            </li>
+
+            {{/each}}
+          {{/withSort}}
+
+        </ul>
+
+      </div>
+      
+    </div>
+
+  </article>
+
+  {{> footer}} 
+
+</div>

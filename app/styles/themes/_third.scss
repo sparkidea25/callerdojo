@@ -1,0 +1,118 @@
+/* Third theme
+ */
+
+/* Mixin
+ */
+
+@mixin third($name, $color, $dark: false) {
+
+  $color-third: lighten(desaturate($color, 20%), 44%);
+
+  .theme-third--#{$name},
+  .theme-third--#{$name}-thumb .theme-preview {
+    @include background-image(
+      linear-gradient(
+        left,
+        $color 0%,
+        $color 58%,
+        $color-third 58%,
+        $color-third 100%
+      )
+    );
+
+  }
+
+  .theme-third--#{$name} {
+
+    .card-content {
+
+      .card-picture {
+        width: emCalc(200);
+        height: emCalc(120);
+        top: auto;
+        left: 4%;
+        bottom: 4%;
+
+        font-size: emCalc(12);
+      }
+
+      .person {
+        left: 4%;
+        top: 12%;
+
+        .fn {
+          font-size: emCalc(18);
+        }
+
+        .title {
+          display: inline-block;
+          border-bottom: 3px solid #fff;
+
+          @if $dark == true {
+            border-color: #fff;
+          } @else {
+            border-color: #000;
+          }
+        }
+      }
+
+      .details,
+      .email,
+      .url {
+        top: 12%;
+        left: 64%;
+
+        color: #000;
+        font-size: emCalc(14);
+      }
+
+      .email {
+        top: 56%;
+      }
+
+      .url {
+        top: 68%;
+      }
+
+      a {
+        color: #000;
+      }
+
+      p {
+        line-height: 1.2em;
+      }
+
+      .card-item {
+        position: absolute;
+        display: block;
+      }
+
+      .card-item:hover {
+        background-color: rgba(#000, .1);
+      }
+
+    }
+
+    @if $dark == true {
+      @include theme(dark);
+    } @else {
+      @include theme(light);
+    }
+
+  }
+
+}
+
+/* Sub-themes
+ */
+
+@include third('black', #000, true);
+@include third('blue', #00A6DE);
+@include third('dark-blue', #133B8B, true);
+@include third('red', #ED1C24, true);
+@include third('turquoise', #1ABC9C, true);
+@include third('green', #8DC63F);
+@include third('dark-green', #00723F, true);
+@include third('pink', #E8A0C6);
+@include third('purple', #713F64, true);
+@include third('orange', #F58220, true);
