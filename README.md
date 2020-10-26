@@ -37,7 +37,3 @@ Everything related to the Angular app is in the `/app` folder.
 
 **Don't edit anything outside the `/app` folder.**
 
-
-## License
-
-This projected is licensed under the terms of the GNU AFFERO GENERAL PUBLIC license.
